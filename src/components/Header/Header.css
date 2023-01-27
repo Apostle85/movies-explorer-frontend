@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 18px 70px;
+    justify-content: space-between;
+    background: #FAFAFA;
+}
+
+.header_color_gray {
+    background-color: #DDDEE3;
+}
+
+.header__logo {
+    display: flex;
+    max-width: 38px;
+    max-height: 38px;
+    transition: all ease-in .2s;
+}
+
+.header__logo:hover {
+    opacity: .8;
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 18px 30px;
+    }
+}
+
+@media screen and (max-width: 488px) {
+    .header {
+        padding: 18px 14px;
+    }
+}

@@ -1,0 +1,130 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter";
+  font-style: normal;
+  align-items: center;
+  background: #fafafa;
+}
+
+.profile__container {
+  align-items: center;
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.21;
+  margin: 74px 0 106px;
+}
+
+.profile__button {
+  cursor: pointer;
+  padding: 0;
+
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.23;
+  background: none;
+  border: none;
+  transition: opacity ease-in 0.2s;
+}
+
+.profile__button_type_change {
+  margin: 204px 157px 16px;
+  color: #000;
+}
+
+.profile__button_type_submit {
+  padding: 14px 0;
+  margin: 20px 0 70px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.21;
+  border: none;
+  background: #3456f3;
+  border-radius: 3px;
+  color: #ffffff;
+  min-width: 410px;
+}
+
+.profile__button:hover {
+  opacity: 0.7;
+}
+
+.profile__link {
+  text-decoration: none;
+  margin: 0 0 70px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.23;
+  color: #ee3465;
+  transition: opacity ease-in 0.2s;
+}
+
+.profile__link:hover {
+  opacity: 0.7;
+}
+
+.profile__error {
+  margin: 173px 0 0;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.13;
+  color: #ff004c;
+}
+
+.profile__error:empty:before {
+  content: "\200b";
+}
+
+@media screen and (max-width: 768px) {
+  .profile__title {
+    margin: 236px 0 79px;
+  }
+
+  .profile__button_type_change {
+    margin: 194px 149.5px 16px;
+  }
+
+  .profile__link {
+    margin: 0 0 269px;
+  }
+
+  .profile__button_type_submit {
+    min-width: 396px;
+    margin: 20px 0 269px;
+  }
+}
+
+@media screen and (max-width: 488px) {
+  .profile__title {
+    margin: 70px 0 63px;
+  }
+
+  .profile__button_type_change {
+    padding: 0 85.25px;
+    margin: 363px 0 16px;
+  }
+
+  .profile__link {
+    margin: 0 0 40px;
+  }
+
+  .profile__button_type_submit {
+    min-width: 260px;
+    margin: 14px 0 40px;
+  }
+
+  .profile__button {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .profile__error {
+    margin: 341px 0 0;
+  }
+}
