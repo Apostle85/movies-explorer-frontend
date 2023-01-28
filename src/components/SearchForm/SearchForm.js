@@ -7,6 +7,7 @@ export default function SearchForm(props) {
       <form className="search-form__form">
         <div className="search-form__search-container">
           <input
+            required
             className="search-form__input"
             // value={this.state.name || ""}
             // onChange={this.handleChangeName}

@@ -1,6 +1,6 @@
 .promo {
   display: flex;
-  font-family: "Inter";
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   justify-content: space-between;
   padding: 75px 70px;
@@ -38,6 +38,7 @@
 }
 
 .nav-button {
+  color: #000;
   cursor: pointer;
   font-weight: 500;
   font-size: 12px;

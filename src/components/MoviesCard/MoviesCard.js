@@ -45,7 +45,7 @@ export default function MoviesCard(props) {
           ></button>
         )}
       </div>
-      <img src={props.src} className="movies-card__image" />
+      <img src={props.src} alt={props.alt} className="movies-card__image" />
     </li>
   );
 }

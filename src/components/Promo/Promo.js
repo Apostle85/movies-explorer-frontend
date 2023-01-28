@@ -11,8 +11,7 @@ export default function Promo(props) {
         <p className="promo__subtitle">
           Листайте ниже, чтобы узнать больше про этот проект и его создателя.
         </p>
-        <a className="promo__anchor" href="#about-project">
-          <button className="nav-button">Узнать больше</button>
+        <a className="promo__anchor nav-button" href="#about-project">Узнать больше
         </a>
       </div>
       <img

@@ -44,8 +44,8 @@ export default function Navigation(props) {
             <div className="navigation__link-list"><NavLink
               className={({
                 isActive,
-              }) => `navigation__link navigation__link_authorized navigation__link_type_main
-              ${isActive ? "navigation__link_active" : undefined} menu__item`}
+              }) => `navigation__link navigation__link_state_authorized navigation__link_type_main
+              ${isActive ? "navigation__link_active" : undefined}`}
               to="/"
             >
               Главная
@@ -53,8 +53,8 @@ export default function Navigation(props) {
             <NavLink
               className={({
                 isActive,
-              }) => `navigation__link navigation__link_authorized navigation__link_type_movie
-              ${isActive ? "navigation__link_active" : undefined} menu__item`}
+              }) => `navigation__link navigation__link_state_authorized navigation__link_type_movie
+              ${isActive ? "navigation__link_active" : undefined}`}
               to="/movies"
             >
               Фильмы
@@ -62,15 +62,15 @@ export default function Navigation(props) {
             <NavLink
               className={({
                 isActive,
-              }) => `navigation__link navigation__link_authorized navigation__link_type_saved-movie
-              ${isActive ? "navigation__link_active" : undefined} menu__item`}
+              }) => `navigation__link navigation__link_state_authorized navigation__link_type_saved-movie
+              ${isActive ? "navigation__link_active" : undefined}`}
               to="/saved-movies"
             >
               Сохранённые фильмы
             </NavLink></div>
             <NavLink className="account-button" to="/profile">
               <div className="navigation__logo"></div>
-              <p className="navigation__link navigation__link_authorized navigation__link_type_account">
+              <p className="navigation__link navigation__link_state_authorized navigation__link_type_account">
                 Аккаунт
               </p>
             </NavLink>

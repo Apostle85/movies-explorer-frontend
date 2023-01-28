@@ -7,6 +7,33 @@
   pointer-events: none;
 }
 
+@media screen and (min-width: 1280px) {
+  .page {
+    width: 1280px;
+  }
+
+  .App {
+    display: flex;
+    justify-content: center;
+  }
+
+  .App_color_gray {
+    background-color: #DDDEE3;
+  }
+
+  .App_color_light {
+    background-color: #FAFAFA;
+  }
+
+  .page_color_gray {
+    background-color: #DDDEE3;
+  }
+
+  .page_color_light {
+    background-color: #FAFAFA;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

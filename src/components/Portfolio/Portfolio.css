@@ -3,7 +3,7 @@
     padding: 0 70px 125px;
     display: flex;
     flex-direction: column;
-    font-family: 'Inter';
+    font-family: 'Inter', 'Arial', sans-serif;
     font-style: normal;
     text-align: left;
     background: #FAFAFA;
@@ -43,6 +43,18 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 1.67;
+    align-self: center;
+}
+
+.portfolio__ref {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #000;
+    transition: opacity ease-in .2s;
 }
 
 .portfolio__ref-logo {
@@ -52,10 +64,10 @@
     background-repeat: no-repeat;
     background-image: url('../../images/portfolio__ref-logo.svg');
     background-position: center;
-    transition: opacity ease-in .2s;
+
 }
 
-.portfolio__ref-logo:hover {
+.portfolio__ref:hover {
     opacity: .7;
 }
 
