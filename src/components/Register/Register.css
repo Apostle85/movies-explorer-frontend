@@ -1,0 +1,145 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+    align-items: center;
+}
+
+.register__container {
+    max-width: 396px;
+}
+
+.register__logo {
+    margin: 70px 0 40px;
+  max-width: 38px;
+  max-height: 38px;
+  transition: all ease-in 0.2s;
+}
+
+.register__logo:hover {
+    opacity: .8;
+}
+
+.register__logo-link {
+    margin: 0;
+    display: flex;
+    align-self:flex-start;
+}
+
+.header__logo:hover {
+  opacity: 0.8;
+}
+
+.register__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.21;
+  margin: 0;
+  text-align: left;
+}
+
+.register__button {
+    cursor: pointer;
+  padding: 14px 0;
+  margin: 128px 0 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.21;
+  border: none;
+  background: #3456f3;
+  border-radius: 3px;
+  color: #ffffff;
+  transition: opacity ease-in 0.2s;
+  min-width: 396px;
+}
+
+.register__button:hover {
+    opacity: .8;
+}
+
+.register__link-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 0;
+}
+
+.register__link-title {
+  margin: 0 6px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #a0a0a0;
+}
+
+.register__link {
+  text-decoration: none;
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #3456f3;
+  transition: opacity ease-in 0.2s;
+}
+
+.register__link:hover {
+    opacity: .7;
+}
+
+@media screen and (max-width: 768px) {
+  .register__logo {
+    margin: 232px 0 40px;
+  }
+
+  .register__link-container {
+    margin: 16px 0 232px;
+  }
+
+  .register__button {
+    margin: 134px 0 0;
+    min-width: 396px;
+  }
+}
+
+@media screen and (max-width: 488px) {
+  .register__logo {
+    margin: 56px 0 50px;
+  }
+
+  .register__link-container {
+    margin: 14px 0 30px;
+  }
+
+  .register__container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .register__button {
+    margin: 285px 0 0;
+    min-width: 260px;
+    font-size: 12px;
+  line-height: 1.25;
+  }
+
+  .register__title {
+    font-size: 24px;
+    line-height: 1.21;
+    margin: 0 0 40px;
+  }
+
+  .register__logo-link {
+    align-self: auto;
+  }
+
+  .register__link-title {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+  
+  .register__link {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+}
