@@ -27,7 +27,12 @@
   font-size: 10px;
   line-height: 1.2;
   color: #ee3465;
+  transition: all .2s ease-in;
 }
+
+/* .auth-form__input-error_form_profile {
+  text-align: right;
+} */
 
 .auth-form__input-error:empty:before {
   content: "\200b";
@@ -46,8 +51,6 @@
   display: flex;
   justify-content: center;
 }
-
-
 
 .auth-form__input_form_profile {
     padding: 0;

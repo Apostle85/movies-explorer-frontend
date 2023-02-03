@@ -1,48 +1,121 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
-import card_photo1 from "../../images/pic__COLOR_pic1.jpg";
-import card_photo2 from "../../images/pic__COLOR_pic2.jpg";
-import card_photo3 from "../../images/pic__COLOR_pic3.jpg";
-import card_photo4 from "../../images/pic__COLOR_pic4.jpg";
-import card_photo5 from "../../images/pic__COLOR_pic5.jpg";
-import card_photo6 from "../../images/pic__COLOR_pic6.jpg";
-import card_photo7 from "../../images/pic__COLOR_pic7.jpg";
-import card_photo8 from "../../images/pic__COLOR_pic8.jpg";
-import card_photo9 from "../../images/pic__COLOR_pic9.jpg";
-import card_photo10 from "../../images/pic__COLOR_pic10.jpg";
-import card_photo11 from "../../images/pic__COLOR_pic11.jpg";
-import card_photo12 from "../../images/pic__COLOR_pic12.jpg";
-import { SavedMoviesContext } from "../../utils/contexts";
-import React, { useEffect } from "react";
+import { SavedMoviesContext, MoviesContext } from "../../utils/contexts";
+import React, { useCallback, useEffect } from "react";
+import { searchMovies } from "../../utils/utils";
 
 export default function MoviesCardList(props) {
-  const movies = [];
-  movies.push(
-    { src: card_photo1, id: 1, alt: 'Фотограф опирается на машину, улыбаясь детям'},
-    { src: card_photo2, id: 2, alt: 'Парень в очках смотрит под углом в камеру' },
-    { src: card_photo3, id: 3, alt: 'Парень с гитарой в руках сидит за столом'},
-    { src: card_photo4, id: 4, alt: 'Человек в зале с колоннами'},
-    { src: card_photo5, id: 5, alt: 'Трое человек катаются на скейтбордах по дороге среди машин'},
-    { src: card_photo6, id: 6, alt: 'Мужчина разбирает кучу коробок в квартире'},
-    { src: card_photo7, id: 7, alt: 'Трое мужчин в пиджаках смеются на фоне ворот'},
-    { src: card_photo8, id: 8, alt: 'Мужчина сидит на фоне вагона, разрисованного граффити'},
-    { src: card_photo9, id: 9, alt: 'Множество людей бегут на марафоне'},
-    { src: card_photo10, id: 10, alt: 'Молодые люди танцуют на вечеринке на фоне других'},
-    { src: card_photo11, id: 11, alt: 'Парень курит сигарету'},
-    { src: card_photo12, id: 12, alt: 'Человек в очках смотрит в монитор в комнате'}
+  const { movies } = React.useContext(MoviesContext);
+  const { savedMovies } = React.useContext(SavedMoviesContext);
+  const choosedMovies = props.saved ? savedMovies : movies;
+  const [exactMovies, setExactMovies] = React.useState(choosedMovies);
+  const [rowIndex, setRowIndex] = React.useState(0);
+  const { isSubmit, setIsSubmit } = props.onSubmit;
+  const isShortMovieChecked = props.isShort;
+
+  const getRowElementsNumber = () => {
+    let elementWidth = 364;
+    if (document.documentElement.clientWidth > 768) elementWidth = 364;
+    else if (document.documentElement.clientWidth > 488) elementWidth = 339;
+    else elementWidth = 300;
+
+    const grid = document.querySelector(".movies-card-list__cards");
+    const gridWidth =
+      grid.clientWidth - parseInt(window.getComputedStyle(grid).gap);
+    return Math.floor(gridWidth / elementWidth);
+  };
+
+  // const getRendereRowElementsNumber = (selector) => {
+  //   const grid = Array.from(document.querySelector(selector).children);
+  //   const defaultOffset = grid[0].offsetTop;
+  //   const uncommonOffsetIndex = grid.findIndex(
+  //     (item) => item.offsetTop > defaultOffset
+  //   );
+  //   return uncommonOffsetIndex === -1 ? grid.length : uncommonOffsetIndex;
+  // };
+
+  React.useEffect(() => {
+    if (!props.saved) {
+      let number = getRowElementsNumber();
+      if (document.documentElement.clientWidth > 488) setRowIndex(number * 4);
+      else setRowIndex(number * 5);
+    }
+  }, [isSubmit, props.saved]);
+
+  React.useEffect(() => {
+    if (
+      localStorage.getItem(props.saved ? "savedExactMovies" : "exactMovies")
+    ) {
+      console.log("START");
+      setExactMovies(
+        JSON.parse(
+          localStorage.getItem(props.saved ? "savedExactMovies" : "exactMovies")
+        ).exactMovies
+      );
+    }
+  }, [props.saved]);
+
+  const listMovies = useCallback(
+    (movies) => {
+      let moviesPart = movies;
+      setIsSubmit(false);
+      moviesPart = searchMovies(moviesPart, props.input);
+      console.log(moviesPart);
+      localStorage.setItem(
+        props.saved ? "savedExactMovies" : "exactMovies",
+        JSON.stringify({ exactMovies: moviesPart })
+      );
+      return moviesPart;
+    },
+    [setIsSubmit, props.input, props.saved]
   );
-  const { savedMovies, setSavedMovies } = React.useContext(SavedMoviesContext);
-  useEffect(()=>console.log(savedMovies), [savedMovies]);
-  const listMovies = props.saved
-    ? savedMovies.map(({ src, id, alt }) => (
-        <MoviesCard saved={props.saved} key={id} src={src} id={id} alt={alt} />
-      ))
-    : movies.map(({ src, id, alt }) => <MoviesCard key={id} src={src} id={id} alt={alt} />);
+
+  useEffect(() => {
+    if (isSubmit) setExactMovies(listMovies(choosedMovies));
+    console.log("check");
+  }, [choosedMovies, isSubmit, listMovies]);
+
+  const handleButtonClick = () => {
+    let number = getRowElementsNumber();
+
+    if (document.documentElement.clientWidth > 488)
+      setRowIndex(rowIndex + number);
+    else setRowIndex(rowIndex + 2 * number);
+  };
 
   return (
     <section className="movies-card-list">
-      <ul className="movies-card-list__cards">{listMovies}</ul>
-      {!props.saved && <button className="movies-card-list__button">Ещё</button>}
+      <ul className="movies-card-list__cards">
+        {(props.saved
+          ? exactMovies
+          : exactMovies.filter((movie, index) => index < rowIndex)
+        )
+          .filter((movie) =>
+            !isShortMovieChecked ? true : movie.duration <= 40
+          )
+          .map((movie) => {
+            console.log(movie);
+            return (
+              <MoviesCard
+                exactMovies={{exactMovies, setExactMovies}}
+                key={props.saved ? movie.movieId : movie.id}
+                movie={movie}
+                saved={props.saved || false}
+              />
+            );
+          })}
+      </ul>
+      {exactMovies.filter((movie) =>
+        !isShortMovieChecked ? true : movie.duration <= 40
+      ).length > rowIndex &&
+        !props.saved && (
+          <button
+            onClick={handleButtonClick}
+            className="movies-card-list__button"
+          >
+            Ещё
+          </button>
+        )}
     </section>
   );
 }

@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { CurrentUserContext } from "../../utils/contexts";
 import "./Navigation.css";
 
 export default function Navigation(props) {
+  const { currentUser } = useContext(CurrentUserContext);
   const location = useLocation();
   const [checked, setChecked] = React.useState(false);
 
   return (
     <nav className="navigation">
-      {location.pathname === "/" ? (
+      {!currentUser.isLogged? (
         <>
           <NavLink
             className="navigation__link navigation__link_type_register"
@@ -45,7 +47,7 @@ export default function Navigation(props) {
               className={({
                 isActive,
               }) => `navigation__link navigation__link_state_authorized navigation__link_type_main
-              ${isActive ? "navigation__link_active" : undefined}`}
+              ${isActive ? "navigation__link_active" : ""}`}
               to="/"
             >
               Главная
@@ -54,7 +56,7 @@ export default function Navigation(props) {
               className={({
                 isActive,
               }) => `navigation__link navigation__link_state_authorized navigation__link_type_movie
-              ${isActive ? "navigation__link_active" : undefined}`}
+              ${isActive ? "navigation__link_active" : ""}`}
               to="/movies"
             >
               Фильмы
@@ -63,7 +65,7 @@ export default function Navigation(props) {
               className={({
                 isActive,
               }) => `navigation__link navigation__link_state_authorized navigation__link_type_saved-movie
-              ${isActive ? "navigation__link_active" : undefined}`}
+              ${isActive ? "navigation__link_active" : ""}`}
               to="/saved-movies"
             >
               Сохранённые фильмы
