@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "./MoviesCard.css";
-import { SavedMoviesContext } from "../../utils/contexts";
+import { CurrentUserContext, SavedMoviesContext } from "../../utils/contexts";
 import MainApi from "../../utils/api/MainApi";
 import { MAIN_API_URL, MOVIES_API_URL } from "../../utils/constants";
 import { searchMovies } from "../../utils/utils";
@@ -17,6 +17,7 @@ export default function MoviesCard(props) {
     nameRU,
     nameEN,
   } = props.movie;
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const {exactMovies, setExactMovies}=props.exactMovies;
   const { savedMovies, setSavedMovies } = React.useContext(SavedMoviesContext);
 
@@ -39,7 +40,7 @@ export default function MoviesCard(props) {
   const handleSaveButtonClick = (e) => {
     e.preventDefault();
     isClicked
-      ? MainApi.forgetMovie(props.movie.id)
+      ? MainApi.forgetMovie(props.movie.id, currentUser.token)
           .then((movie) => {
             console.log("DELETED");
             setSavedMovies(
@@ -66,9 +67,13 @@ export default function MoviesCard(props) {
           nameRU,
           nameEN,
           id: props.movie.id,
-        })
-          .then((movie) => {
+        },currentUser.token)
+          .then(({data}) => {
+            console.log(data);
             setIsClicked(true);
+            setSavedMovies([
+              ...savedMovies, data]
+              )
           })
           .catch((err) => {
             console.log(err);
@@ -76,7 +81,7 @@ export default function MoviesCard(props) {
   };
 
   const handleRemoveButtonClick = () => {
-    MainApi.forgetMovie(props.movie.movieId)
+    MainApi.forgetMovie(props.movie.movieId,currentUser.token)
       .then((movie) => {
         console.log("DELETED");
         setExactMovies(

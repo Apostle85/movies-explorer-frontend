@@ -1,6 +1,6 @@
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
-import { MoviesContext } from "../../utils/contexts";
+import { CurrentUserContext, MoviesContext } from "../../utils/contexts";
 import MoviesApi from "../../utils/api/MoviesApi";
 import { useContext, useEffect } from "react";
 import {UNNAMED_API_ERR,
@@ -8,6 +8,7 @@ import {UNNAMED_API_ERR,
   EMPTY_INPUT_ERR,} from '../../utils/constants';
 
 export default function SearchForm(props) {
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { movies, setMovies } = useContext(MoviesContext);
   const { input, setInput } = props.input;
   const { setIsLoading, setIsSubmit } = props;

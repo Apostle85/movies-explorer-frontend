@@ -24,13 +24,17 @@ export default function Register(props) {
       .then(({ data }) => {
         return MainApi.login(regData);
       })
-      .then(({ data }) => {
+      .then(({ data, token }) => {
+        if (token){
+          localStorage.setItem('jwtoken', token);
+        }
         setCurrentUser({
           isLogged: true,
           name: regData.name,
           email: regData.email,
+          token: token,
         });
-        // navigate("/movies");
+        navigate("/movies");
       })
       .catch((err) => {
         const error = JSON.parse(err.message);

@@ -21,11 +21,17 @@ export default function Login(props) {
     e.preventDefault();
     setError({ isError: false, message: "" });
     MainApi.login(regData)
-      .then(({ data }) => {
+      .then(({data, token}) => {
+        console.log(token);
+        if (token){
+          console.log(token);
+          localStorage.setItem('jwtoken', token);
+        }
         setCurrentUser({
           isLogged: true,
           name: regData.name,
           email: regData.email,
+          token: token,
         });
         navigate("/movies");
       })

@@ -25,6 +25,7 @@ function App() {
     isLogging: true,
     name: "",
     email: "",
+    token: localStorage.getItem('jwtoken')?localStorage.getItem('jwtoken') : "",
   });
   const location = useLocation();
   const [movies, setMovies] = useState([]);
@@ -34,16 +35,18 @@ function App() {
   const onClose = () => setIsFound(true);
 
   useEffect(() => {
-    MainApi.getMovies().then(({ data: movies }) => {
+    MainApi.getMovies(currentUser.token).then(({ data: movies }) => {
       setSavedMovies(movies);
       console.log(movies);
     });
   }, [setSavedMovies]);
-  
+
   useEffect(() => {
-    MainApi.getProfile().then(({ data }) => {
+    
+    MainApi.getProfile(currentUser.token).then(({ data }) => {
       const { email, name } = data;
       setCurrentUser({
+        ...currentUser,
         isLogged: true,
         name,
         email,
@@ -53,6 +56,7 @@ function App() {
     }).catch((err) => {
       console.log(err);
       setCurrentUser({
+        ...currentUser,
         isLogged: false,
         name: '',
         email: '',

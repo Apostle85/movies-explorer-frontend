@@ -8,7 +8,9 @@ class MainApi {
 
   _getResponse(res) {
     if (res.ok) return res.json();
-    return res.text().then(text => { throw new Error(text) });
+    return res.text().then((text) => {
+      throw new Error(text);
+    });
   }
 
   saveMovie({
@@ -22,11 +24,12 @@ class MainApi {
     nameRU,
     nameEN,
     id,
-  }) {
+  },token) {
+    console.log(token);
     return fetch(`${this._url}/movies`, {
       method: "POST",
       credentials: "include",
-      headers: this._headers,
+      headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
       body: JSON.stringify({
         country,
         director,
@@ -45,19 +48,21 @@ class MainApi {
     });
   }
 
-  forgetMovie(movieId) {
+  forgetMovie(movieId,token) {
+    console.log(token);
     return fetch(`${this._url}/movies/${movieId}`, {
       method: "DELETE",
       credentials: "include",
-      headers: this._headers,
+      headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
     }).then((res) => {
       return this._getResponse(res);
     });
   }
 
-  getMovies() {
+  getMovies(token) {
+    console.log(token);
     return fetch(`${this._url}/movies`, {
-      headers: this._headers,
+      headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
       credentials: "include",
     }).then((res) => {
       return this._getResponse(res);
@@ -96,21 +101,23 @@ class MainApi {
     });
   }
 
-  logout() {
+  logout(token) {
+    console.log(token);
     return fetch(`${this._url}/signout`, {
       credentials: "include",
-      headers: this._headers,
+      headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
     }).then((res) => {
       return this._getResponse(res);
     });
   }
 
   // Отправка отредактированной информации о пользователе
-  updateProfile({ name, email }) {
+  updateProfile({ name, email },token) {
+    console.log(token);
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       credentials: "include",
-      headers: this._headers,
+      headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
       body: JSON.stringify({
         name,
         email,
@@ -121,10 +128,11 @@ class MainApi {
   }
 
   // Получение информации о пользователе
-  getProfile() {
+  getProfile(token) {
+    console.log(token);
     return fetch(`${this._url}/users/me`, {
       credentials: "include",
-      headers: this._headers,
+      headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
     }).then((res) => {
       return this._getResponse(res);
     });

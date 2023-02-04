@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import "./SavedMovies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import { MoviesContext, SavedMoviesContext } from "../../utils/contexts";
-import MainApi from "../../utils/api/MainApi";
+
 
 export default function SavedMovies(props) {
   const [isLoading, setIsLoading] = React.useState(false);

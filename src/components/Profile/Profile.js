@@ -19,9 +19,9 @@ export default function Profile(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError({ isError: false, message: "" });
-    MainApi.updateProfile(regData)
+    MainApi.updateProfile(regData,currentUser.token)
       .then(({ data }) => {
-        setCurrentUser({ name: data.name, email: data.email });
+        setCurrentUser({ ...currentUser, name: data.name, email: data.email });
       })
       .catch((err) => {
         const error = JSON.parse(err.message);
@@ -32,9 +32,10 @@ export default function Profile(props) {
 
   const handleSignOut = (e) => {
     setError({ isError: false, message: "" });
-    MainApi.logout()
+    MainApi.logout(currentUser.token)
       .then(({ data }) => {
-        setCurrentUser({ isLogged: false, name: "", email: "" });
+        localStorage.setItem('jwtoken', '');
+        setCurrentUser({ ...currentUser, isLogged: false, name: "", email: "" });
       })
       .catch((err) => {
         const error = JSON.parse(err.message);
