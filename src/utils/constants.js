@@ -1,7 +1,7 @@
 export const MOVIES_API_URL = 'https://api.nomoreparties.co';
 export const MOVIES_PATH = '/beatfilm-movies';
 // export const MAIN_API_URL = 'https://eliproject.students.nomoredomains.rocks';
-export const MAIN_API_URL = 'http://localhost:3000';
+export const MAIN_API_URL = 'https://eliproject.students.nomoredomains.rocks';
 export const REQUIRED_INPUT_ERR = 'Это поле обязательно';
 export const REQUIRED_PROFILE_INPUT_ERR = 'Эти поля обязательны';
 export const EMAIL_INPUT_ERR = 'Некорректный адрес почты. Пример: diploma@site.com';
