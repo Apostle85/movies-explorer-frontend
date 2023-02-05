@@ -3,6 +3,8 @@
     background: #FAFAFA;
     font-family: 'Inter', 'Arial', sans-serif;
     font-style: normal;
+    display: flex;
+    flex-direction: column;
 }
 
 .movies-card-list__cards {
@@ -31,6 +33,9 @@
     border: 1px solid #E8E8E8;
     transition: opacity ease-in .2s;
     border-radius: 6px;
+    width: fit-content;
+    align-self: center;
+    display: flex;
 }
 
 .movies-card-list__button:hover {

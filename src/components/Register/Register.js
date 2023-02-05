@@ -4,10 +4,11 @@ import headerLogo from "../../images/header__logo.svg";
 import "./Register.css";
 import { useContext, useEffect, useState } from "react";
 import MainApi from "../../utils/api/MainApi";
-import { CurrentUserContext } from "../../utils/contexts";
+import { CurrentUserContext, SavedMoviesContext } from "../../utils/contexts";
 
 export default function Register(props) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { savedMovies, setSavedMovies } = useContext(SavedMoviesContext);
   const [isRegisterValid, setIsRegisterValid] = useState(false);
   const navigate = useNavigate();
   const [regData, setRegData] = useState({});
@@ -25,20 +26,32 @@ export default function Register(props) {
         return MainApi.login(regData);
       })
       .then(({ data, token }) => {
-        if (token){
-          localStorage.setItem('jwtoken', token);
+        if (token) {
+          localStorage.setItem("jwtoken", token);
         }
         setCurrentUser({
+          ...currentUser,
           isLogged: true,
           name: regData.name,
           email: regData.email,
           token: token,
         });
+        return MainApi.getMovies(token)
+      })
+      .then(({ data: movies }) => {
+        setSavedMovies(movies);
+        console.log(movies);
         navigate("/movies");
       })
       .catch((err) => {
         const error = JSON.parse(err.message);
-        setError({ isError: true, message: error.message });
+        setError({
+          isError: true,
+          message:
+            error.message === "Validation failed"
+              ? "При регистрации пользователя произошла ошибка"
+              : error.message,
+        });
         console.log(error.message);
       });
   };

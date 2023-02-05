@@ -3,21 +3,22 @@ import "./MoviesCardList.css";
 import { SavedMoviesContext, MoviesContext } from "../../utils/contexts";
 import React, { useCallback, useEffect } from "react";
 import { searchMovies } from "../../utils/utils";
+import { BIG_CLIENT_WIDTH, BIG_ELEMENT_WIDTH, BIG_ROW_INDEX, MEDIUM_ELEMENT_WIDTH, NOT_FOUND_API_ERR, SMALL_CLIENT_WIDTH, SMALL_ROW_INDEX, TINY_ELEMENT_WIDTH } from "../../utils/constants";
 
-export default function MoviesCardList(props) {
+export default function MoviesCardList({saved, onSubmit, isShort, onError, input}) {
   const { movies } = React.useContext(MoviesContext);
   const { savedMovies } = React.useContext(SavedMoviesContext);
-  const choosedMovies = props.saved ? savedMovies : movies;
+  const choosedMovies = saved ? savedMovies : movies;
   const [exactMovies, setExactMovies] = React.useState(choosedMovies);
   const [rowIndex, setRowIndex] = React.useState(0);
-  const { isSubmit, setIsSubmit } = props.onSubmit;
-  const isShortMovieChecked = props.isShort;
+  const { isSubmit, setIsSubmit } = onSubmit;
+  const isShortMovieChecked = isShort;
 
   const getRowElementsNumber = () => {
-    let elementWidth = 364;
-    if (document.documentElement.clientWidth > 768) elementWidth = 364;
-    else if (document.documentElement.clientWidth > 488) elementWidth = 339;
-    else elementWidth = 300;
+    let elementWidth = BIG_ELEMENT_WIDTH;
+    if (document.documentElement.clientWidth > BIG_CLIENT_WIDTH) elementWidth = BIG_ELEMENT_WIDTH;
+    else if (document.documentElement.clientWidth > SMALL_CLIENT_WIDTH) elementWidth = MEDIUM_ELEMENT_WIDTH;
+    else elementWidth = TINY_ELEMENT_WIDTH;
 
     const grid = document.querySelector(".movies-card-list__cards");
     const gridWidth =
@@ -35,50 +36,60 @@ export default function MoviesCardList(props) {
   // };
 
   React.useEffect(() => {
-    if (!props.saved) {
+    if (!saved) {
       let number = getRowElementsNumber();
-      if (document.documentElement.clientWidth > 488) setRowIndex(number * 4);
-      else setRowIndex(number * 5);
+      if (document.documentElement.clientWidth > SMALL_CLIENT_WIDTH) setRowIndex(number * BIG_ROW_INDEX);
+      else setRowIndex(number * SMALL_ROW_INDEX);
     }
-  }, [isSubmit, props.saved]);
-
-  React.useEffect(() => {
-    if (
-      localStorage.getItem(props.saved ? "savedExactMovies" : "exactMovies")
-    ) {
-      console.log("START");
-      setExactMovies(
-        JSON.parse(
-          localStorage.getItem(props.saved ? "savedExactMovies" : "exactMovies")
-        ).exactMovies
-      );
-    }
-  }, [props.saved]);
+  }, [isSubmit, saved]);
 
   const listMovies = useCallback(
     (movies) => {
+      onError({ isError: false, status: "", message: "" });
       let moviesPart = movies;
       setIsSubmit(false);
-      moviesPart = searchMovies(moviesPart, props.input);
+      moviesPart = searchMovies(moviesPart, input);
       console.log(moviesPart);
-      localStorage.setItem(
-        props.saved ? "savedExactMovies" : "exactMovies",
-        JSON.stringify({ exactMovies: moviesPart })
-      );
+      if (!saved) {
+        localStorage.setItem(
+          "exactMovies",
+          JSON.stringify({ exactMovies: moviesPart })
+        );
+      }
+      if (moviesPart.length === 0)
+        onError({
+          isError: true,
+          status: "",
+          message: NOT_FOUND_API_ERR,
+        });
       return moviesPart;
     },
-    [setIsSubmit, props.input, props.saved]
+    [setIsSubmit, input, saved, onError]
   );
+
+  React.useEffect(() => {
+    if (!saved) {
+      if (localStorage.getItem("exactMovies") !== undefined && localStorage.getItem("exactMovies") !== 'undefined') {
+        const storageMovies = JSON.parse(
+          localStorage.getItem("exactMovies")
+        ).exactMovies;
+        if (storageMovies !== [] && storageMovies !== undefined) {
+          setExactMovies(storageMovies);
+        }
+      }
+    } else {
+      setExactMovies(choosedMovies);
+    }
+  }, [saved, choosedMovies]);
 
   useEffect(() => {
     if (isSubmit) setExactMovies(listMovies(choosedMovies));
-    console.log("check");
   }, [choosedMovies, isSubmit, listMovies]);
 
   const handleButtonClick = () => {
     let number = getRowElementsNumber();
 
-    if (document.documentElement.clientWidth > 488)
+    if (document.documentElement.clientWidth > 891)
       setRowIndex(rowIndex + number);
     else setRowIndex(rowIndex + 2 * number);
   };
@@ -86,7 +97,7 @@ export default function MoviesCardList(props) {
   return (
     <section className="movies-card-list">
       <ul className="movies-card-list__cards">
-        {(props.saved
+        {(saved
           ? exactMovies
           : exactMovies.filter((movie, index) => index < rowIndex)
         )
@@ -97,10 +108,10 @@ export default function MoviesCardList(props) {
             console.log(movie);
             return (
               <MoviesCard
-                exactMovies={{exactMovies, setExactMovies}}
-                key={props.saved ? movie.movieId : movie.id}
+                exactMovies={{ exactMovies, setExactMovies }}
+                key={saved ? movie.movieId : movie.id}
                 movie={movie}
-                saved={props.saved || false}
+                saved={saved || false}
               />
             );
           })}
@@ -108,7 +119,7 @@ export default function MoviesCardList(props) {
       {exactMovies.filter((movie) =>
         !isShortMovieChecked ? true : movie.duration <= 40
       ).length > rowIndex &&
-        !props.saved && (
+        !saved && (
           <button
             onClick={handleButtonClick}
             className="movies-card-list__button"

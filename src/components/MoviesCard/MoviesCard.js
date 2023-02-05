@@ -3,7 +3,7 @@ import "./MoviesCard.css";
 import { CurrentUserContext, SavedMoviesContext } from "../../utils/contexts";
 import MainApi from "../../utils/api/MainApi";
 import { MAIN_API_URL, MOVIES_API_URL } from "../../utils/constants";
-import { searchMovies } from "../../utils/utils";
+import { getShortMovieTime, searchMovies } from "../../utils/utils";
 
 export default function MoviesCard(props) {
   const {
@@ -102,7 +102,7 @@ export default function MoviesCard(props) {
       <div className="movies-card__container">
         <div className="movies-card__info">
           <h2 className="movies-card__title">{nameRU}</h2>
-          <p className="movies-card__duration">{`${Math.floor(duration/60)}ч${duration%60}м`}</p>
+          <p className="movies-card__duration">{getShortMovieTime(duration)}</p>
         </div>
         {props.saved ? (
           <button

@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import "./Input.css";
 
-export default function Input(props) {
+export default function Input({ onChange, ...props}) {
   const { value, setValue } = props.input;
 
   function handleChange(e) {
     setValue(e.target.value);
+    // props.onChange();
   }
 
-  useEffect(()=>{props.onChange();},[value])
+  // useEffect(()=>{onChange();},[value,onChange])
 
   return (
     <input

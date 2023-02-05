@@ -1,6 +1,7 @@
 .movies {
   padding: 0 70px;
   background: #fafafa;
+  flex-grow: 1;
 }
 
 .movies__error-message {

@@ -4,6 +4,7 @@
   font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
     align-items: center;
+    flex-grow: 1;
 }
 
 .register__container {

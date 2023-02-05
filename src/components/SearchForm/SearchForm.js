@@ -3,9 +3,11 @@ import "./SearchForm.css";
 import { CurrentUserContext, MoviesContext } from "../../utils/contexts";
 import MoviesApi from "../../utils/api/MoviesApi";
 import { useContext, useEffect } from "react";
-import {UNNAMED_API_ERR,
+import {
+  UNNAMED_API_ERR,
   NOT_FOUND_API_ERR,
-  EMPTY_INPUT_ERR,} from '../../utils/constants';
+  EMPTY_INPUT_ERR,
+} from "../../utils/constants";
 
 export default function SearchForm(props) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -16,20 +18,13 @@ export default function SearchForm(props) {
 
   useEffect(() => {
     if (
-      localStorage.getItem(props.saved ? "savedSearchState" : "searchState") &&
-      localStorage.getItem(
-        props.saved ? "savedSearchCheckbox" : "searchCheckbox"
-      )
+      !props.saved &&
+      localStorage.getItem("searchState") &&
+      localStorage.getItem("searchCheckbox")
     ) {
-      const searchState = JSON.parse(
-        localStorage.getItem(props.saved ? "savedSearchState" : "searchState")
-      );
+      const searchState = JSON.parse(localStorage.getItem("searchState"));
       setInput(searchState.input);
-      const searchCheckBox = JSON.parse(
-        localStorage.getItem(
-          props.saved ? "savedSearchCheckbox" : "searchCheckbox"
-        )
-      );
+      const searchCheckBox = JSON.parse(localStorage.getItem("searchCheckbox"));
       setIsShortMovieChecked(searchCheckBox.isShortMovieChecked);
       console.log(searchCheckBox.isShortMovieChecked);
     }
@@ -39,10 +34,7 @@ export default function SearchForm(props) {
     const search = input;
     e.preventDefault();
     props.onError({ isError: false, message: "" });
-    localStorage.setItem(
-      props.saved ? "savedSearchState" : "searchState",
-      JSON.stringify({ input })
-    );
+    localStorage.setItem("searchState", JSON.stringify({ input }));
 
     if (search.length === 0) {
       props.onError({ isError: true, message: EMPTY_INPUT_ERR });
@@ -53,25 +45,31 @@ export default function SearchForm(props) {
       setIsSubmit(true);
     } else if (movies.length === 0) {
       setIsLoading(true);
-      MoviesApi.getCards()
-        .then((cards) => {
-          if (cards.length === 0) {
-            props.onError({ isError: true, message: NOT_FOUND_API_ERR });
-            return;
-          }
-          setMovies(cards);
-          setIsLoading(false);
-          setIsSubmit(true);
-          console.log(cards);
-        })
-        .catch((err) => {
-          console.log(err);
-          props.onError({
-            isError: true,
-            message:
-              UNNAMED_API_ERR,
+      if (localStorage.getItem("cards")) {
+        setMovies(JSON.parse(localStorage.getItem("cards")));
+        setIsLoading(false);
+        setIsSubmit(true);
+      } else {
+        MoviesApi.getCards()
+          .then((cards) => {
+            if (cards.length === 0) {
+              props.onError({ isError: true, message: NOT_FOUND_API_ERR });
+              return;
+            }
+            localStorage.setItem("cards", JSON.stringify(cards));
+            setMovies(cards);
+            setIsLoading(false);
+            setIsSubmit(true);
+            console.log(cards);
+          })
+          .catch((err) => {
+            console.log(err);
+            props.onError({
+              isError: true,
+              message: UNNAMED_API_ERR,
+            });
           });
-        });
+      }
     } else {
       setIsSubmit(true);
     }

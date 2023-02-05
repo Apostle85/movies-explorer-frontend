@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainApi from "../../utils/api/MainApi";
-import { CurrentUserContext } from "../../utils/contexts";
+import { SUCCESS_REFRESH_MESSAGE } from "../../utils/constants";
+import { CurrentUserContext, MoviesContext, SavedMoviesContext } from "../../utils/contexts";
 import AuthForm from "../Authform/AuthForm";
 import "./Profile.css";
 
 export default function Profile(props) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { savedMovies, setSavedMovies } = useContext(SavedMoviesContext);
+  const { movies, setMovies } = useContext(MoviesContext);
   const [isProfileValid, setIsProfileValid] = useState(false);
   const navigate = useNavigate();
   const [regData, setRegData] = useState({});
@@ -19,9 +22,10 @@ export default function Profile(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError({ isError: false, message: "" });
-    MainApi.updateProfile(regData,currentUser.token)
+    MainApi.updateProfile(regData, currentUser.token)
       .then(({ data }) => {
         setCurrentUser({ ...currentUser, name: data.name, email: data.email });
+        setError({ isError: false, message: SUCCESS_REFRESH_MESSAGE });
       })
       .catch((err) => {
         const error = JSON.parse(err.message);
@@ -34,8 +38,17 @@ export default function Profile(props) {
     setError({ isError: false, message: "" });
     MainApi.logout(currentUser.token)
       .then(({ data }) => {
-        localStorage.setItem('jwtoken', '');
-        setCurrentUser({ ...currentUser, isLogged: false, name: "", email: "" });
+        localStorage.setItem("jwtoken", "");
+        setCurrentUser({
+          ...currentUser,
+          isLogged: false,
+          name: "",
+          email: "",
+          token: "",
+        });
+        setMovies([]);
+        setSavedMovies([]);
+        localStorage.setItem("exactMovies", undefined);
       })
       .catch((err) => {
         const error = JSON.parse(err.message);

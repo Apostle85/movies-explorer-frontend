@@ -40,7 +40,7 @@ export default function Movies(props) {
       ) : error.isError ? (
         <p className="movies__error-message">{error.message}</p>
       ) : (
-        <MoviesCardList onSubmit={{isSubmit, setIsSubmit}} input={input} isShort={isShortMovieChecked} saved={false} />
+        <MoviesCardList onError={ setError } onSubmit={{isSubmit, setIsSubmit}} input={input} isShort={isShortMovieChecked} saved={false} />
       )}
     </main>
   );

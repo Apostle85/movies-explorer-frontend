@@ -11,7 +11,7 @@
 }
 
 .login__logo {
-  margin: 70px 0 40px;
+  margin: 0;
   max-width: 38px;
   max-height: 38px;
   transition: all ease-in 0.2s;
@@ -22,7 +22,8 @@
 }
 
 .login__logo-link {
-  margin: 0;
+  width: fit-content;
+  margin: 70px 0 40px;
   display: flex;
   align-self: flex-start;
 }
@@ -97,7 +98,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .login__logo {
+  .login__logo-link {
     margin: 232px 0 40px;
   }
 
@@ -112,8 +113,9 @@
 }
 
 @media screen and (max-width: 488px) {
-  .login__logo {
+  .login__logo-link {
     margin: 56px 0 50px;
+    align-self: auto;
   }
 
   .login__link-container {
@@ -137,10 +139,6 @@
     font-size: 24px;
     line-height: 1.21;
     margin: 0 0 40px;
-  }
-
-  .login__logo-link {
-    align-self: auto;
   }
 
   .login__link-title {

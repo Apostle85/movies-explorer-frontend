@@ -3,7 +3,7 @@ import Preloader from "../Preloader/Preloader";
 import React, { useEffect } from "react";
 import "./SavedMovies.css";
 import SearchForm from "../SearchForm/SearchForm";
-import { MoviesContext, SavedMoviesContext } from "../../utils/contexts";
+import { SavedMoviesContext } from "../../utils/contexts";
 
 
 export default function SavedMovies(props) {
@@ -17,8 +17,6 @@ export default function SavedMovies(props) {
   const [input, setInput] = React.useState("");
   const { savedMovies, setSavedMovies } = React.useContext(SavedMoviesContext);
   const [isShortMovieChecked, setIsShortMovieChecked] = React.useState(false);
-
-  React.useEffect(() => console.log("error check: ", error), [error]);
 
   const handleError = (err) => {
     setError({

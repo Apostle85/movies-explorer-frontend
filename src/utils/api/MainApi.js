@@ -25,7 +25,6 @@ class MainApi {
     nameEN,
     id,
   },token) {
-    console.log(token);
     return fetch(`${this._url}/movies`, {
       method: "POST",
       credentials: "include",
@@ -49,7 +48,6 @@ class MainApi {
   }
 
   forgetMovie(movieId,token) {
-    console.log(token);
     return fetch(`${this._url}/movies/${movieId}`, {
       method: "DELETE",
       credentials: "include",
@@ -60,7 +58,6 @@ class MainApi {
   }
 
   getMovies(token) {
-    console.log(token);
     return fetch(`${this._url}/movies`, {
       headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
       credentials: "include",
@@ -102,7 +99,6 @@ class MainApi {
   }
 
   logout(token) {
-    console.log(token);
     return fetch(`${this._url}/signout`, {
       credentials: "include",
       headers: { ...this._headers, 'Authorization': `Bearer ${token}`},
@@ -113,7 +109,7 @@ class MainApi {
 
   // Отправка отредактированной информации о пользователе
   updateProfile({ name, email },token) {
-    console.log(token);
+    console.log(name, email, 'CHECK');
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       credentials: "include",
@@ -129,7 +125,6 @@ class MainApi {
 
   // Получение информации о пользователе
   getProfile(token) {
-    console.log(token);
     return fetch(`${this._url}/users/me`, {
       credentials: "include",
       headers: { ...this._headers, 'Authorization': `Bearer ${token}`},

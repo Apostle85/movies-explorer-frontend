@@ -5,6 +5,7 @@
   font-style: normal;
   align-items: center;
   background: #fafafa;
+  flex-grow: 1;
 }
 
 .profile__container {
@@ -71,6 +72,10 @@
   font-size: 11px;
   line-height: 1.13;
   color: #ff004c;
+}
+
+.profile__error_type_correct {
+  color: #006600;
 }
 
 .profile__error:empty:before {

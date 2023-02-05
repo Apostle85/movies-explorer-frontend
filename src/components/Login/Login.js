@@ -4,10 +4,11 @@ import headerLogo from "../../images/header__logo.svg";
 import "./Login.css";
 import { useContext, useEffect, useState } from "react";
 import MainApi from "../../utils/api/MainApi";
-import { CurrentUserContext } from "../../utils/contexts";
+import { CurrentUserContext, SavedMoviesContext } from "../../utils/contexts";
 
 export default function Login(props) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { savedMovies, setSavedMovies } = useContext(SavedMoviesContext);
   const [isLoginValid, setIsLoginValid] = useState(false);
   const navigate = useNavigate();
   const [regData, setRegData] = useState({});
@@ -28,11 +29,16 @@ export default function Login(props) {
           localStorage.setItem('jwtoken', token);
         }
         setCurrentUser({
+          ...currentUser,
           isLogged: true,
-          name: regData.name,
           email: regData.email,
           token: token,
         });
+        return MainApi.getMovies(token)
+      })
+      .then(({ data: movies }) => {
+        setSavedMovies(movies);
+        console.log(movies);
         navigate("/movies");
       })
       .catch((err) => {
@@ -42,7 +48,7 @@ export default function Login(props) {
             isError: true,
             message:
               error.message === "Validation failed"
-                ? "При регистрации пользователя произошла ошибка"
+                ? "При авторизации пользователя произошла ошибка"
                 : error.message,
           });
         console.log(error.message);
