@@ -69,7 +69,7 @@ export default function MoviesCardList({saved, onSubmit, isShort, onError, input
 
   React.useEffect(() => {
     if (!saved) {
-      if (localStorage.getItem("exactMovies") !== undefined && localStorage.getItem("exactMovies") !== 'undefined') {
+      if (localStorage.getItem("exactMovies")) {
         const storageMovies = JSON.parse(
           localStorage.getItem("exactMovies")
         ).exactMovies;

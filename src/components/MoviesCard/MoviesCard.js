@@ -81,7 +81,8 @@ export default function MoviesCard(props) {
   };
 
   const handleRemoveButtonClick = () => {
-    MainApi.forgetMovie(props.movie.movieId,currentUser.token)
+    console.log(props.movie.movieId);
+    MainApi.forgetMovie(props.movie.movieId, currentUser.token)
       .then((movie) => {
         console.log("DELETED");
         setExactMovies(

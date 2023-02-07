@@ -48,7 +48,7 @@ export default function Profile(props) {
         });
         setMovies([]);
         setSavedMovies([]);
-        localStorage.setItem("exactMovies", undefined);
+        localStorage.removeItem("exactMovies");
       })
       .catch((err) => {
         const error = JSON.parse(err.message);

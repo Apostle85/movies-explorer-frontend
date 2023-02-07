@@ -54,6 +54,25 @@ export default function Login(props) {
         console.log(error.message);
       });
   };
+// .then(
+//   ([
+//     { data: movies },
+//     {
+//       data: { email, name },
+//     },
+//   ]) => {
+//     setSavedMovies(movies);
+//     console.log(movies);
+//     navigate("/movies");
+//     setCurrentUser({
+//       ...currentUser,
+//       isLogged: true,
+//       name,
+//       email,
+//       isLogging: false,
+//     });
+//   }
+// )
 
   useEffect(() => {
     if (currentUser.isLogged) navigate("/movies");
