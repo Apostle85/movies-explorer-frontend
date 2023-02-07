@@ -42,6 +42,7 @@ export default function SavedMovies(props) {
         <p className="movies__error-message">{error.message}</p>
       ) : (
         <MoviesCardList
+          onError={ setError }
           onSubmit={{ isSubmit, setIsSubmit }}
           input={input}
           isShort={isShortMovieChecked}
