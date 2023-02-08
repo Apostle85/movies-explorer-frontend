@@ -5,6 +5,7 @@ import "./Login.css";
 import { useContext, useEffect, useState } from "react";
 import MainApi from "../../utils/api/MainApi";
 import { CurrentUserContext, SavedMoviesContext } from "../../utils/contexts";
+import { VALIDATION_AUTH_ERR, VALIDATION_SERV_ERR } from "../../utils/constants";
 
 export default function Login(props) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -46,8 +47,8 @@ export default function Login(props) {
           setError({
             isError: true,
             message:
-              error.message === "Validation failed"
-                ? "При авторизации пользователя произошла ошибка"
+              error.message === VALIDATION_SERV_ERR
+                ? VALIDATION_AUTH_ERR
                 : error.message,
           });
         console.log(error.message);
