@@ -56,9 +56,7 @@ export default function Login(props) {
   };
 
   useEffect(() => {
-    console.log('CHECKING');
     if (currentUser.isLogged && currentUser.isLogging) {
-      console.log('CHECKING2');
       MainApi.getProfile(currentUser.token)
         .then(({ data: { email, name } }) => {
           setCurrentUser({
