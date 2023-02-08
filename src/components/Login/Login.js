@@ -22,24 +22,23 @@ export default function Login(props) {
     e.preventDefault();
     setError({ isError: false, message: "" });
     MainApi.login(regData)
-      .then(({data, token}) => {
+      .then(({ data, token }) => {
         console.log(token);
-        if (token){
+        if (token) {
           console.log(token);
-          localStorage.setItem('jwtoken', token);
+          localStorage.setItem("jwtoken", token);
         }
         setCurrentUser({
           ...currentUser,
           isLogged: true,
+          isLogging: true,
           email: regData.email,
           token: token,
         });
-        return MainApi.getMovies(token)
+        return MainApi.getMovies(token);
       })
       .then(({ data: movies }) => {
         setSavedMovies(movies);
-        console.log(movies);
-        navigate("/movies");
       })
       .catch((err) => {
         const error = JSON.parse(err.message);
@@ -54,29 +53,34 @@ export default function Login(props) {
         console.log(error.message);
       });
   };
-// .then(
-//   ([
-//     { data: movies },
-//     {
-//       data: { email, name },
-//     },
-//   ]) => {
-//     setSavedMovies(movies);
-//     console.log(movies);
-//     navigate("/movies");
-//     setCurrentUser({
-//       ...currentUser,
-//       isLogged: true,
-//       name,
-//       email,
-//       isLogging: false,
-//     });
-//   }
-// )
 
   useEffect(() => {
-    if (currentUser.isLogged) navigate("/movies");
-  }, [currentUser.isLogged, navigate]);
+    console.log('CHECKING');
+    if (currentUser.isLogged && currentUser.isLogging) {
+      console.log('CHECKING2');
+      MainApi.getProfile(currentUser.token)
+        .then(({ data: { email, name } }) => {
+          setCurrentUser({
+            isLogged: true,
+            isLogging: false,
+            token: currentUser.token,
+            name,
+            email,
+          });
+          navigate("/movies");
+        })
+        .catch((err) => {
+          const error = JSON.parse(err.message);
+          if (error.message)
+            setError({
+              isError: true,
+              message: error.message,
+            });
+          console.log(error.message);
+          navigate("/movies");
+        });
+    }
+  }, [currentUser.isLogged, currentUser.token, navigate, setCurrentUser]);
 
   return (
     <main className="login">

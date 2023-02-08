@@ -41,7 +41,6 @@ export default function Register(props) {
       .then(({ data: movies }) => {
         setSavedMovies(movies);
         console.log(movies);
-        navigate("/movies");
       })
       .catch((err) => {
         const error = JSON.parse(err.message);

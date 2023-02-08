@@ -35,7 +35,10 @@ export default function SearchForm(props) {
     e.preventDefault();
     props.onError({ isError: false, message: "" });
     localStorage.setItem("searchState", JSON.stringify({ input }));
-
+    localStorage.setItem(
+      "searchCheckbox",
+      JSON.stringify({ isShortMovieChecked })
+    );
     if (search.length === 0) {
       props.onError({ isError: true, message: EMPTY_INPUT_ERR });
       return;
