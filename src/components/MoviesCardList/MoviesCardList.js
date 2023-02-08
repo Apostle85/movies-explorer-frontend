@@ -41,7 +41,7 @@ export default function MoviesCardList({saved, onSubmit, isShort, onError, input
       if (document.documentElement.clientWidth > SMALL_CLIENT_WIDTH) setRowIndex(number * BIG_ROW_INDEX);
       else setRowIndex(number * SMALL_ROW_INDEX);
     }
-  }, [isSubmit, saved]);
+  }, [isSubmit, saved, isShortMovieChecked]);
 
   const listMovies = useCallback(
     (movies) => {
