@@ -34,11 +34,13 @@ export default function SearchForm(props) {
     const search = input;
     e.preventDefault();
     props.onError({ isError: false, message: "" });
-    localStorage.setItem("searchState", JSON.stringify({ input }));
-    localStorage.setItem(
-      "searchCheckbox",
-      JSON.stringify({ isShortMovieChecked })
-    );
+    if (!props.saved) {
+      localStorage.setItem("searchState", JSON.stringify({ input }));
+      localStorage.setItem(
+        "searchCheckbox",
+        JSON.stringify({ isShortMovieChecked })
+      );
+    }
     if (search.length === 0) {
       props.onError({ isError: true, message: EMPTY_INPUT_ERR });
       return;
@@ -80,10 +82,12 @@ export default function SearchForm(props) {
 
   const handleCheckboxClick = () => {
     console.log("checkin");
-    localStorage.setItem(
-      props.saved ? "savedSearchCheckbox" : "searchCheckbox",
-      JSON.stringify({ isShortMovieChecked: !isShortMovieChecked })
-    );
+    if (!props.saved) {
+      localStorage.setItem(
+        "searchCheckbox",
+        JSON.stringify({ isShortMovieChecked: !isShortMovieChecked })
+      );
+    }
     setIsShortMovieChecked(!isShortMovieChecked);
   };
 

@@ -1,7 +1,7 @@
 export const MOVIES_API_URL = 'https://api.nomoreparties.co';
 export const MOVIES_PATH = '/beatfilm-movies';
-export const MAIN_API_URL = 'https://eliproject.students.nomoredomains.rocks';
-// export const MAIN_API_URL = 'http://localhost:3000';
+// export const MAIN_API_URL = 'https://eliproject.students.nomoredomains.rocks';
+export const MAIN_API_URL = 'http://localhost:3000';
 export const REQUIRED_INPUT_ERR = 'Это поле обязательно';
 export const REQUIRED_PROFILE_INPUT_ERR = 'Эти поля обязательны';
 export const VALIDATION_AUTH_ERR = 'При авторизации пользователя произошла ошибка';
