@@ -3,6 +3,8 @@
     background: #FAFAFA;
     font-family: 'Inter', 'Arial', sans-serif;
     font-style: normal;
+    display: flex;
+    flex-direction: column;
 }
 
 .movies-card-list__cards {
@@ -31,6 +33,9 @@
     border: 1px solid #E8E8E8;
     transition: opacity ease-in .2s;
     border-radius: 6px;
+    width: fit-content;
+    align-self: center;
+    display: flex;
 }
 
 .movies-card-list__button:hover {
@@ -40,6 +45,7 @@
 @media screen and (max-width: 768px) {
     .movies-card-list__cards {
         gap: 30px;
+        grid-template-columns: repeat(auto-fill, 339px);
     }
 }
 
@@ -50,6 +56,7 @@
 
     .movies-card-list__cards {
         gap: 16px;
+        grid-template-columns: repeat(auto-fill, 300px);
     }
     .movies-card-list__button {
         padding: 11px 106px 9px;
